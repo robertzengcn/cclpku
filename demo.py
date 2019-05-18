@@ -33,11 +33,11 @@ class Demo(object):
             if searchObj:
 
                 # print "searchObj.group(1) : ", searchObj.group(1)
-                self.sendtoapi(searchObj.group(1))
+                self.sendtoapi(searchObj.group(1),line)
             else:
                 print "Nothing found!!"
 
-        def sendtoapi(self,str):
+        def sendtoapi(self,str,originline):
             str=str.encode("utf-8")
             url = 'https://aip.baidubce.com/rpc/2.0/nlp/v1/lexer?charset=UTF-8&access_token='+self.token
             headers = {"Content-Type": "application/json"}
@@ -52,6 +52,7 @@ class Demo(object):
                 res=text.get("items")
                 if res:
                     list=[]
+                    list.append(originline.encode("utf-8"))
                     list.append(str)
                     for values in text["items"]:
                         pres=values["item"]+"("+values["pos"]+")"
